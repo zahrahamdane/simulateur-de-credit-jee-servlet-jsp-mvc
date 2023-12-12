@@ -1,53 +1,60 @@
 <%@page import="com.zaradev.web.CreditModel"%>
 <%@page import="java.text.DecimalFormat"%>
-
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
+<meta charset="UTF-8" />
 <title>Crédit bancaire</title>
+<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
 </head>
 <body>
-	<div>
-		<%
-			CreditModel model = (CreditModel) request.getAttribute("creditModel");
-		
-		%>
-		<form action="calculerMensualite.fr" method="Post">
-			<table>
-				<tr>
-					<td>Montant :</td>
-					<td><input type="text" name="montant" value="<%= model.getMontant() %>" /></td>
-					<td>DH</td>
-				</tr>
-				
-				<tr>
-					<td>Taux :</td>
-					<td><input type="text" name="taux" value="<%= model.getTaux() %>" /></td>
-					<td>%</td>
-				</tr>
-				
-				<tr>
-					<td>Durée :</td>
-					<td><input type="text" name="duree" value="<%= model.getDuree() %>" /></td>
-					<td>Mois</td>
-				</tr>
-			</table>
-			
-			<button type="submit">Calculer</button>
-		
-		</form>
-		<hr />
-		<div>
-			<p>
-				<% DecimalFormat df = new DecimalFormat("0.00"); %>
-				Monsualité = <% out.println(df.format(model.getMensualite())); %>
-			</p>
-		
+
+	<%
+	CreditModel model = (CreditModel) request.getAttribute("creditModel");
+	%>
+	<%
+	DecimalFormat df = new DecimalFormat("0.00");
+	%>
+
+	<div class="container spacer">
+		<div class="col-md-6 col-xs-12 col-sm-6 offset-md-3">
+
+			<div class="card">
+				<div class="card-header bg-primary text-white">Simulation du crédit</div>
+				<div class="card-body">
+
+					<form action="calculerMensualite.fr" method="Post">
+
+						<div class="form-group">
+							<label class="control-label">Montant :</label> 
+							<input class="form-control" type="text" name="montant" value="<%=df.format(model.getMontant()) %>">
+						</div>
+
+						<div class="form-group">
+							<label class="control-label">Taux :</label> 
+							<input class="form-control" type="text" name="taux" value="<%=model.getTaux()%>"> 
+						</div>
+
+						<div class="form-group">
+							<label class="control-label">Durée :</label> 
+							<input class="form-control" type="text" name="duree" value="<%=model.getDuree()%>">
+						</div>
+
+						<button class="btn btn-primary" type="submit">Calculer</button>
+
+					</form>
+				</div>
+
+				<div class="card-footer text-body-secondary">
+					<label>
+						Mensualité :</label> <label> <% out.println(df.format(model.getMensualite())); %>
+					</label>
+				</div>
+			</div>
 		</div>
-	
 	</div>
 </body>
 </html>
